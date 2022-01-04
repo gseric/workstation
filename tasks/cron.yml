@@ -1,2 +1,0 @@
-- name: Install provisioning cron job
-  cron: user="provisioner" name="Provisioner" minute="*/10" job="/usr/bin/ansible-pull -o -U https://github.com/gseric/workstation.git > /dev/null"
