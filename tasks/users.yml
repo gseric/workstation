@@ -1,0 +1,4 @@
+- name: Create provisioner user
+  user: name=provisioner uid=900
+- name: Copy sudoers_provisioner
+  copy: src=files/sudoers_provisioner dest=/etc/sudoers.d/provisioner owner=root group=root mode=0440
