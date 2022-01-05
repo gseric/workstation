@@ -4,3 +4,4 @@
     - htop
     - mc
     - tmux
+    - jq # JSON formatter, json_pp alternative (json_pp doesn't support UTF-8)
