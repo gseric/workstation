@@ -1,0 +1,11 @@
+# Tommy project requires Elasticsearch 6.8
+- name: Hold Elasticsearch version
+  dpkg_selections:
+    name: elasticsearch
+    selection: hold
+- name: Configure start on boot
+  systemd:
+    daemon_reload: true
+    name: elasticsearch.service
+    enabled: true
+    state: started
