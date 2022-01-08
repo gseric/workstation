@@ -126,8 +126,6 @@
     - php7.4-xdebug
     - php7.4-xml
     - php7.4-zip
-    - php-amqp
-    - php-pear
     - rabbitmq-server
     - ripgrep
     - slack
