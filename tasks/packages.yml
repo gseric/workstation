@@ -4,25 +4,73 @@
   changed_when: false
 - name: Install base packages
   apt:
-    name: '{{item}}'
-  with_items:
+    name: '{{ item }}'
+  loop:
     - apt-transport-https
     - ca-certificates
     - curl
     - gnupg
     - software-properties-common
-- name: Add Docker's official GPG key
+- name: Add GPG keys
   apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-- name: Add Docker's packages repository
+    keyring: '{{ item.keyring }}'
+    url: '{{ item.url }}'
+  loop:
+    - keyring: /etc/apt/trusted.gpg.d/docker.gpg
+      url: https://download.docker.com/linux/ubuntu/gpg
+    - keyring: /etc/apt/trusted.gpg.d/rabbitmq.gpg
+      url: https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA
+    - keyring: /etc/apt/trusted.gpg.d/rabbitmq-packagecloud.gpg
+      url: https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
+    # Erlang/OTP, required by RabbitMQ
+    - keyring: /etc/apt/trusted.gpg.d/erlang.gpg
+      url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xf77f1eda57ebb1cc
+    - keyring: /etc/apt/trusted.gpg.d/google.gpg
+      url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+    - keyring: /etc/apt/trusted.gpg.d/elasticsearch.gpg
+      url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    - keyring: /etc/apt/trusted.gpg.d/ngrok.gpg
+      url: https://ngrok-agent.s3.amazonaws.com/ngrok.asc
+- name: Retrieve system architecture
+  shell: dpkg --print-architecture
+  register: dpkg_print_architecture
+  changed_when: false
+- name: Add package repositories
   apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts['distribution_release'] | lower }} stable
-    state: present
+    filename: '{{ item.filename }}'
+    repo: '{{ item.repo }}'
+  loop:
+    - filename: php
+      repo: deb [arch={{ arch }}] http://ppa.launchpad.net/ondrej/php/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
+    - filename: keepass
+      repo: deb [arch={{ arch }}] http://ppa.launchpad.net/jtaylor/keepass/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
+    - filename: google-drive-ocamlfuse
+      repo: deb [arch={{ arch }}] http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
+    - filename: docker
+      repo: deb [arch={{ arch }}] https://download.docker.com/linux/ubuntu {{ ansible_facts['distribution_release'] | lower }} stable
+    - filename: rabbitmq
+      repo: deb [arch={{ arch }}] https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ {{ ansible_facts['distribution_release'] | lower }} main
+    # Erlang/OTP, required by RabbitMQ
+    - filename: erlang
+      repo: deb [arch={{ arch }}] http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
+    - filename: google-chrome
+      repo: deb [arch={{ arch }}] http://dl.google.com/linux/chrome/deb/ stable main
+    - filename: elasticsearch
+      repo: deb [arch={{ arch }}] https://artifacts.elastic.co/packages/6.x/apt stable main
+    - filename: ngrok
+      repo: deb [arch={{ arch }}] https://ngrok-agent.s3.amazonaws.com buster main
+  vars:
+    arch: '{{ dpkg_print_architecture.stdout }}'
+- name: Update package repositories
+  apt:
+    update_cache: yes
+  changed_when: false
 - name: Install packages
   apt:
-    name: '{{item}}'
-  with_items:
+    name: '{{ item }}'
+  loop:
+    # Krusader icon problem: https://forum.kde.org/viewtopic.php?f=225&t=169954
+    - breeze-icon-theme
     # Required for Docker:
     # https://docs.docker.com/engine/install/ubuntu/#install-docker-engine
     - containerd.io
@@ -32,7 +80,27 @@
     # Tommy project requires Elasticsearch 6.8
     # Available versions: apt-cache policy elasticsearch
     - elasticsearch=6.8.13
+    # Erlang required by RabbitMQ
+    - erlang-asn1
+    - erlang-base
+    - erlang-crypto
+    - erlang-eldap
+    - erlang-ftp
+    - erlang-inets
+    - erlang-mnesia
+    - erlang-os-mon
+    - erlang-parsetools
+    - erlang-public-key
+    - erlang-runtime-tools
+    - erlang-snmp
+    - erlang-ssl
+    - erlang-syntax-tools
+    - erlang-tftp
+    - erlang-tools
+    - erlang-xmerl
     - filezilla
+    - gedit-plugins
+    - git
     - gnome-tweaks
     - google-chrome-stable
     - google-drive-ocamlfuse
@@ -45,7 +113,7 @@
     - mc
     - mysql-server-8.0
     - nethogs
-    - nodejs
+    - ngrok
     - pavucontrol
     - php7.4
     - php7.4-amqp
@@ -67,3 +135,17 @@
     - traceroute
     - ubuntu-restricted-extras
     - xmlcopyeditor
+- name: Install snap packages
+  community.general.snap:
+    name: '{{ item.name }}'
+    classic: '{{ item.classic }}'
+    channel: '{{ item.channel }}'
+  loop:
+    - { name: 'dbeaver-ce', classic: false, channel: ~ }
+    - { name: 'mysql-workbench-community', classic: false, channel: ~ } # Unofficial
+    # Node.js and npm
+    - { name: 'node', classic: true, channel: '14/stable' }
+    - { name: 'notepad-plus-plus', classic: false, channel: ~ } # Unofficial
+    - { name: 'phpstorm', classic: true, channel: ~ }
+    - { name: 'postman', classic: false, channel: ~ }
+    - { name: 'slack', classic: true, channel: ~ }
