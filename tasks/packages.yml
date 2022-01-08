@@ -2,30 +2,51 @@
   apt:
     update_cache: yes
   changed_when: false
+- name: Install base packages
+  apt:
+    name: '{{item}}'
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gnupg
+    - software-properties-common
+- name: Add Docker's official GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+- name: Add Docker's packages repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ ansible_facts['distribution_release'] | lower }} stable
+    state: present
 - name: Install packages
   apt:
     name: '{{item}}'
   with_items:
-    # Required for Elasticsearch installation:
-    # https://www.elastic.co/guide/en/elasticsearch/reference/6.8/deb.html#deb-repo
-    - apt-transport-https
-    - curl
+    # Required for Docker:
+    # https://docs.docker.com/engine/install/ubuntu/#install-docker-engine
+    - containerd.io
     - docker-ce
     - docker-ce-cli
     - docker-compose
     # Tommy project requires Elasticsearch 6.8
+    # Available versions: apt-cache policy elasticsearch
     - elasticsearch=6.8.13
+    - filezilla
+    - gnome-tweaks
     - google-chrome-stable
     - google-drive-ocamlfuse
+    - gufw
     - htop
-    # JSON formatter
-    # Alternative to json_pp (json_pp doesn't support UTF-8)
+    - iotop
     - jq
     - keepass2
     - krusader
     - mc
     - mysql-server-8.0
-    # Tommy project requires PHP 7.4
+    - nethogs
+    - nodejs
+    - pavucontrol
     - php7.4
     - php7.4-amqp
     - php7.4-cli
@@ -43,4 +64,6 @@
     - ripgrep
     - slack
     - tmux
+    - traceroute
+    - ubuntu-restricted-extras
     - xmlcopyeditor
