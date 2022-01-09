@@ -132,6 +132,8 @@
     - tmux
     - traceroute
     - ubuntu-restricted-extras
+    # Required by tmux mod
+    - xclip
     - xmlcopyeditor
 - name: Install snap packages
   community.general.snap:

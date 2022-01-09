@@ -5,5 +5,8 @@
   tasks:
     - include_tasks: tasks/packages.yml
     - include_tasks: tasks/auto-provisioning.yml
+    - include_tasks: tasks/tmux.yml
     - include_tasks: tasks/elasticsearch.yml
     - include_tasks: tasks/docker.yml
+  vars:
+    user: gseric
