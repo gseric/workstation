@@ -14,4 +14,4 @@
     user: '{{ provisioning_user }}'
     name: Provisioning
     minute: '*/10'
-    job: /usr/bin/ansible-pull --only-if-changed --url {{ provisioning_repository }} > /dev/null
+    job: /usr/bin/ansible-pull --only-if-changed --url={{ provisioning_repository }} > /dev/null
