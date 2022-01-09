@@ -1,0 +1,17 @@
+- name: Create provisioning user
+  user:
+    name: '{{ provisioning_user }}'
+    uid: '900'
+- name: Configure provisioning sudo
+  template:
+    src: sudoers.j2
+    dest: /etc/sudoers.d/{{ provisioning_user }}
+    owner: root
+    group: root
+    mode: '0440'
+- name: Install provisioning cron job
+  cron:
+    user: '{{ provisioning_user }}'
+    name: Provisioning
+    minute: '*/10'
+    job: /usr/bin/ansible-pull -o -U {{ provisioning_repository }} > /dev/null

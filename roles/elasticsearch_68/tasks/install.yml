@@ -1,0 +1,8 @@
+- name: Install package
+  apt:
+    # Available versions: apt-cache policy elasticsearch
+    name: elasticsearch=6.8.22
+- name: Hold version
+  dpkg_selections:
+    name: elasticsearch
+    selection: hold

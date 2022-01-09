@@ -1,0 +1,3 @@
+user: gseric
+provisioning_user: provisioner
+provisioning_repository: https://github.com/gseric/workstation.git

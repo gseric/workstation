@@ -1,0 +1,24 @@
+- name: Update package repositories
+  apt:
+    update_cache: yes
+  changed_when: false
+- name: Install base packages
+  apt:
+    name: '{{ item }}'
+  loop:
+    - gpg
+    - dpkg
+- name: Add GPG key
+  apt_key:
+    keyring: /etc/apt/trusted.gpg.d/elasticsearch.gpg
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+- name: Retrieve system architecture
+  shell: dpkg --print-architecture
+  register: dpkg_print_architecture
+  changed_when: false
+- name: Add package repository
+  apt_repository:
+    filename: elasticsearch
+    repo: deb [arch={{ arch }}] https://artifacts.elastic.co/packages/6.x/apt stable main
+  vars:
+    arch: '{{ dpkg_print_architecture.stdout }}'

@@ -1,0 +1,3 @@
+- include_tasks: add_package_repository.yml
+- include_tasks: install.yml
+- include_tasks: configure.yml

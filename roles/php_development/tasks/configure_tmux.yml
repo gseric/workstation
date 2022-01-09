@@ -1,7 +1,7 @@
 - name: Configure tmux
   copy:
-    src: files/.tmux.conf
+    src: .tmux.conf
     dest: /home/{{ user }}/.tmux.conf
-    owner: gseric
-    group: gseric
+    owner: '{{ user }}'
+    group: '{{ user }}'
     mode: '0664'

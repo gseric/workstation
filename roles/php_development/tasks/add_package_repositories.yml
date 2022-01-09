@@ -9,7 +9,7 @@
     - apt-transport-https
     - ca-certificates
     - curl
-    - gnupg
+    - gpg
     - software-properties-common
 - name: Add GPG keys
   apt_key:
@@ -27,8 +27,6 @@
       url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xf77f1eda57ebb1cc
     - keyring: /etc/apt/trusted.gpg.d/google.gpg
       url: https://dl-ssl.google.com/linux/linux_signing_key.pub
-    - keyring: /etc/apt/trusted.gpg.d/elasticsearch.gpg
-      url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
     - keyring: /etc/apt/trusted.gpg.d/ngrok.gpg
       url: https://ngrok-agent.s3.amazonaws.com/ngrok.asc
 - name: Retrieve system architecture
@@ -55,97 +53,7 @@
       repo: deb [arch={{ arch }}] http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
     - filename: google-chrome
       repo: deb [arch={{ arch }}] http://dl.google.com/linux/chrome/deb/ stable main
-    - filename: elasticsearch
-      repo: deb [arch={{ arch }}] https://artifacts.elastic.co/packages/6.x/apt stable main
     - filename: ngrok
       repo: deb [arch={{ arch }}] https://ngrok-agent.s3.amazonaws.com buster main
   vars:
     arch: '{{ dpkg_print_architecture.stdout }}'
-- name: Update package repositories
-  apt:
-    update_cache: yes
-  changed_when: false
-- name: Install packages
-  apt:
-    name: '{{ item }}'
-  loop:
-    # Krusader icon problem: https://forum.kde.org/viewtopic.php?f=225&t=169954
-    - breeze-icon-theme
-    # Required for Docker:
-    # https://docs.docker.com/engine/install/ubuntu/#install-docker-engine
-    - containerd.io
-    - docker-ce
-    - docker-ce-cli
-    - docker-compose
-    # Tommy project requires Elasticsearch 6.8
-    # Available versions: apt-cache policy elasticsearch
-    - elasticsearch=6.8.13
-    # Erlang required by RabbitMQ
-    - erlang-asn1
-    - erlang-base
-    - erlang-crypto
-    - erlang-eldap
-    - erlang-ftp
-    - erlang-inets
-    - erlang-mnesia
-    - erlang-os-mon
-    - erlang-parsetools
-    - erlang-public-key
-    - erlang-runtime-tools
-    - erlang-snmp
-    - erlang-ssl
-    - erlang-syntax-tools
-    - erlang-tftp
-    - erlang-tools
-    - erlang-xmerl
-    - filezilla
-    - gedit-plugins
-    - git
-    - gnome-tweaks
-    - google-chrome-stable
-    - google-drive-ocamlfuse
-    - gufw
-    - htop
-    - iotop
-    - jq
-    - keepass2
-    - krusader
-    - mc
-    - mysql-server-8.0
-    - nethogs
-    - ngrok
-    - pavucontrol
-    - php7.4
-    - php7.4-amqp
-    - php7.4-cli
-    - php7.4-curl
-    - php7.4-gd
-    - php7.4-intl
-    - php7.4-mbstring
-    - php7.4-mysql
-    - php7.4-xdebug
-    - php7.4-xml
-    - php7.4-zip
-    - rabbitmq-server
-    - ripgrep
-    - slack
-    - tmux
-    - traceroute
-    - ubuntu-restricted-extras
-    # Required by tmux mod
-    - xclip
-    - xmlcopyeditor
-- name: Install snap packages
-  community.general.snap:
-    name: '{{ item.name }}'
-    classic: '{{ item.classic }}'
-    channel: '{{ item.channel }}'
-  loop:
-    - { name: 'dbeaver-ce', classic: false, channel: ~ }
-    - { name: 'mysql-workbench-community', classic: false, channel: ~ } # Unofficial
-    # Node.js and npm
-    - { name: 'node', classic: true, channel: '14/stable' }
-    - { name: 'notepad-plus-plus', classic: false, channel: ~ } # Unofficial
-    - { name: 'phpstorm', classic: true, channel: ~ }
-    - { name: 'postman', classic: false, channel: ~ }
-    - { name: 'slack', classic: true, channel: ~ }
