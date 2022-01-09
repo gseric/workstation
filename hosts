@@ -1,0 +1,2 @@
+# Necessary to suppress "provided hosts list is empty, only localhost is available" warning
+localhost

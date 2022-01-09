@@ -11,7 +11,7 @@ Instructions:
 
 During development (from project directory):
 ```
-sudo ansible-playbook local.yml
+sudo ansible-playbook -i hosts local.yml
 ```
 
 Keep in mind that device drivers are not provisioned since they are hardware dependent.
