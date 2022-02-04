@@ -1,0 +1,21 @@
+# Flash plugin, unrar, gstreamer, mp4, codecs for Chromium browser in Ubuntu etc.
+# Requires multiverse package repository.
+# Asks user to accept Microsoft fonts license (Microsoft fonts are included in this package).
+# https://www.stefanwienert.de/blog/2014/08/29/ansible-enable-ubuntu-multiverse-and-install-mscorefonts/
+- name: Update package repositories
+  apt:
+    update_cache: yes
+  changed_when: false
+- name: Install font libraries
+  apt:
+    name: '{{ item }}'
+  loop:
+    - libfreetype6
+    - libfreetype6-dev
+    - libfontconfig
+- name: Accept Microsoft fonts license
+  apt:
+    shell: 'echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections'
+- name: Install Ubuntu restricted extras
+  apt:
+    name: ubuntu-restricted-extras

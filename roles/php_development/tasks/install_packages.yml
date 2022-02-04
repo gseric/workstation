@@ -8,6 +8,8 @@
   loop:
     # Krusader icon problem: https://forum.kde.org/viewtopic.php?f=225&t=169954
     - breeze-icon-theme
+    # Necessary for Gnome shell extensions (gnome-shell-extensions)
+    - chrome-gnome-shell
     # Required for Docker:
     # https://docs.docker.com/engine/install/ubuntu/#install-docker-engine
     - containerd.io
@@ -36,6 +38,9 @@
     - filezilla
     - gedit-plugins
     - git
+    # Install browser extension to install additional Gnome extensions
+    # https://linuxconfig.org/how-to-install-gnome-shell-extensions-on-ubuntu-20-04-focal-fossa-linux-desktop
+    - gnome-shell-extensions
     - gnome-tweaks
     - google-chrome-stable
     - google-drive-ocamlfuse
@@ -66,7 +71,6 @@
     - slack
     - tmux
     - traceroute
-    - ubuntu-restricted-extras
     # Required by tmux mod
     - xclip
     - xmlcopyeditor
