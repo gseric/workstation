@@ -15,4 +15,8 @@ During development (from project directory; add `--check` for dry run):
 sudo ansible-playbook --inventory=hosts local.yml
 ```
 
-Keep in mind that device drivers are not provisioned since they are hardware dependent.
+## Notes
+
+* Package updates are not managed by this playbook, only their existence.
+* Base Ubuntu package repositories should be added manually (through Ubuntu GUI).
+* Device drivers are not provisioned since they are hardware dependent.

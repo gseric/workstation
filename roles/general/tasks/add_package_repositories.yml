@@ -11,13 +11,13 @@
     repo: '{{ item.repo }}'
   loop:
     - filename: keepass
-      repo: deb [arch={{ arch }}] http://ppa.launchpad.net/jtaylor/keepass/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
+      repo: ppa:jtaylor/keepass
 
     - filename: google-drive-ocamlfuse
-      repo: deb [arch={{ arch }}] http://ppa.launchpad.net/alessandro-strada/ppa/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
+      repo: ppa:alessandro-strada/ppa
 
     - filename: google-chrome
       repo: deb [arch={{ arch }}] http://dl.google.com/linux/chrome/deb/ stable main
 
     - filename: libreoffice
-      repo: deb [arch={{ arch }}] https://ppa.launchpadcontent.net/libreoffice/libreoffice-still/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
+      repo: ppa:libreoffice/libreoffice-still

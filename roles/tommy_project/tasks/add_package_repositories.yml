@@ -4,4 +4,4 @@
     repo: '{{ item.repo }}'
   loop:
     - filename: php
-      repo: deb [arch={{ arch }}] http://ppa.launchpad.net/ondrej/php/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
+      repo: ppa:ondrej/php
