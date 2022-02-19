@@ -1,0 +1,13 @@
+- name: Update package repositories
+  apt:
+    update_cache: yes
+  changed_when: false
+- name: Install Debian packages
+  apt:
+    name: '{{ item }}'
+  loop:
+    # https://docs.docker.com/engine/install/ubuntu/#install-docker-engine
+    - containerd.io
+    - docker-ce
+    - docker-ce-cli
+    - docker-compose

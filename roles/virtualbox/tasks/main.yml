@@ -1,0 +1,3 @@
+- include_tasks: install_virtualbox.yml
+# TODO install only if not already installed
+#- include_tasks: install_extension_pack.yml

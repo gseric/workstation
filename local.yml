@@ -3,5 +3,9 @@
   connection: local
   become: true
   roles:
+    - base
     - auto_provisioning
-    - php_development
+    - general
+    - development
+    - locastic
+    - tommy_project

@@ -1,0 +1,10 @@
+- name: Download VirtualBox Extension Pack
+  get_url:
+    url: https://download.virtualbox.org/virtualbox/6.1.32/Oracle_VM_VirtualBox_Extension_Pack-6.1.32.vbox-extpack
+    dest: /tmp/Oracle_VM_VirtualBox_Extension_Pack.vbox-extpack
+- name: Install VirtualBox Extension Pack
+  block:
+    - shell: yes | VBoxManage extpack install --replace /tmp/Oracle_VM_VirtualBox_Extension_Pack.vbox-extpack
+    - file:
+        path: /tmp/Oracle_VM_VirtualBox_Extension_Pack.vbox-extpack
+        state: absent

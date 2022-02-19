@@ -1,0 +1,9 @@
+- name: Install Snap packages
+  community.general.snap:
+    name: '{{ item.name }}'
+    classic: '{{ item.classic }}'
+    channel: '{{ item.channel }}'
+  loop:
+    - { name: 'phpstorm', classic: true, channel: ~ }
+    - { name: 'postman', classic: false, channel: ~ }
+    - { name: 'slack', classic: true, channel: ~ }

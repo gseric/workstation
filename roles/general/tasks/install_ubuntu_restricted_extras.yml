@@ -14,8 +14,7 @@
     - libfreetype6-dev
     - libfontconfig
 - name: Accept Microsoft fonts license
-  apt:
-    shell: 'echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections'
+  shell: 'echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections'
 - name: Install Ubuntu restricted extras
   apt:
     name: ubuntu-restricted-extras

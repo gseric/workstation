@@ -1,0 +1,40 @@
+- name: Update package repositories
+  apt:
+    update_cache: yes
+  changed_when: false
+- name: Install Debian packages
+  apt:
+    name: '{{ item }}'
+  loop:
+    # Krusader icon problem: https://forum.kde.org/viewtopic.php?f=225&t=169954
+    - breeze-icon-theme
+    # Necessary for Gnome shell extensions (gnome-shell-extensions)
+    - chrome-gnome-shell
+    - curl
+    - gedit-plugins
+    # Install browser extension to install additional Gnome extensions
+    # https://linuxconfig.org/how-to-install-gnome-shell-extensions-on-ubuntu-20-04-focal-fossa-linux-desktop
+    - gnome-shell-extensions
+    - gnome-tweaks
+    - google-chrome-stable
+    - google-drive-ocamlfuse
+    - gufw
+    - htop
+    - iotop
+    - keepass2
+    - krusader
+    - libreoffice
+    - mc
+    - nethogs
+    - pavucontrol
+    - tmux
+    - traceroute
+    # Required by tmux mod
+    - xclip
+- name: Install Snap packages
+  community.general.snap:
+    name: '{{ item.name }}'
+    classic: '{{ item.classic }}'
+    channel: '{{ item.channel }}'
+  loop:
+    - { name: 'notepad-plus-plus', classic: false, channel: ~ } # Unofficial

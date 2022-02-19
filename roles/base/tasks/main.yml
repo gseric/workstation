@@ -1,0 +1,23 @@
+- name: Update package repositories
+  apt:
+    update_cache: yes
+  changed_when: false
+- name: Install base packages
+  apt:
+    name: '{{ item }}'
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - dpkg
+    - gpg
+    - software-properties-common
+- name: Retrieve system architecture
+  shell: dpkg --print-architecture
+  register: dpkg_print_architecture
+  changed_when: false
+  check_mode: no
+- name: Set system architecture fact
+  set_fact:
+    arch: '{{ dpkg_print_architecture.stdout }}'
+    cacheable: yes

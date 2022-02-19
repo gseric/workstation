@@ -1,0 +1,7 @@
+- name: Add package repositories
+  apt_repository:
+    filename: '{{ item.filename }}'
+    repo: '{{ item.repo }}'
+  loop:
+    - filename: php
+      repo: deb [arch={{ arch }}] http://ppa.launchpad.net/ondrej/php/ubuntu {{ ansible_facts['distribution_release'] | lower }} main

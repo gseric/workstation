@@ -1,0 +1,22 @@
+- name: Add GPG keys
+  apt_key:
+    keyring: '{{ item.keyring }}'
+    url: '{{ item.url }}'
+  loop:
+    - keyring: /etc/apt/trusted.gpg.d/google.gpg
+      url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+    - keyring: /etc/apt/trusted.gpg.d/ngrok.gpg
+      url: https://ngrok-agent.s3.amazonaws.com/ngrok.asc
+- name: Add package repositories
+  apt_repository:
+    filename: '{{ item.filename }}'
+    repo: '{{ item.repo }}'
+  loop:
+    - filename: php
+      repo: deb [arch={{ arch }}] https://ppa.launchpadcontent.net/ondrej/php/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
+
+    - filename: git
+      repo: deb [arch={{ arch }}] https://ppa.launchpadcontent.net/git-core/ppa/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
+
+    - filename: ngrok
+      repo: deb [arch={{ arch }}] https://ngrok-agent.s3.amazonaws.com buster main

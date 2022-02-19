@@ -1,3 +1,4 @@
 user: gseric
 provisioning_user: provisioner
 provisioning_repository: https://github.com/gseric/workstation.git
+ubuntu_repository_host: hr.archive.ubuntu.com
