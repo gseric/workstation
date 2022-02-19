@@ -10,33 +10,6 @@
     filename: '{{ item.filename }}'
     repo: '{{ item.repo }}'
   loop:
-    - filename: ubuntu-main-restricted
-      repo: deb [arch={{ arch }}] http://{{ ubuntu_repository_host }}/ubuntu/ {{ ansible_facts['distribution_release'] | lower }} main restricted
-    - filename: ubuntu-main-restricted
-      repo: deb [arch={{ arch }}] http://{{ ubuntu_repository_host }}/ubuntu/ {{ ansible_facts['distribution_release'] | lower }}-updates main restricted
-    - filename: ubuntu-main-restricted
-      repo: deb [arch={{ arch }}] http://security.ubuntu.com/ubuntu {{ ansible_facts['distribution_release'] | lower }}-security main restricted
-
-    - filename: ubuntu-universe
-      repo: deb [arch={{ arch }}] http://{{ ubuntu_repository_host }}/ubuntu/ {{ ansible_facts['distribution_release'] | lower }} universe
-    - filename: ubuntu-universe
-      repo: deb [arch={{ arch }}] http://{{ ubuntu_repository_host }}/ubuntu/ {{ ansible_facts['distribution_release'] | lower }}-updates universe
-    - filename: ubuntu-universe
-      repo: deb [arch={{ arch }}] http://security.ubuntu.com/ubuntu {{ ansible_facts['distribution_release'] | lower }}-security universe
-
-    - filename: ubuntu-multiverse
-      repo: deb [arch={{ arch }}] http://{{ ubuntu_repository_host }}/ubuntu/ {{ ansible_facts['distribution_release'] | lower }} multiverse
-    - filename: ubuntu-multiverse
-      repo: deb [arch={{ arch }}] http://{{ ubuntu_repository_host }}/ubuntu/ {{ ansible_facts['distribution_release'] | lower }}-updates multiverse
-    - filename: ubuntu-multiverse
-      repo: deb [arch={{ arch }}] http://security.ubuntu.com/ubuntu {{ ansible_facts['distribution_release'] | lower }}-security multiverse
-
-    - filename: ubuntu-partner
-      repo: deb [arch={{ arch }}] http://archive.canonical.com/ubuntu {{ ansible_facts['distribution_release'] | lower }} partner
-
-    - filename: ubuntu-backports
-      repo: deb [arch={{ arch }}] http://{{ ubuntu_repository_host }}/ubuntu/ {{ ansible_facts['distribution_release'] | lower }}-backports main restricted universe multiverse
-
     - filename: keepass
       repo: deb [arch={{ arch }}] http://ppa.launchpad.net/jtaylor/keepass/ubuntu {{ ansible_facts['distribution_release'] | lower }} main
 
